@@ -33,10 +33,18 @@ namespace BannerMongoApp.Controllers
         }
 
         [HttpPost]
-        public async Task<string> Post(Banner banner)
+        public async void Post([FromBody] Banner banner)
         {
              await _bannerRepository.Add(banner);
-            return "";
+            return ;
+        }
+
+        // PUT api/values/5
+        [HttpPut("{id}")]
+        public async void Put(string id, [FromBody] Banner banner)
+        {
+            await _bannerRepository.Update(id,banner);
+            return;
         }
     }
 }
