@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BannerMongoApp.Models;
 using BannerMongoApp.Repository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -32,6 +29,19 @@ namespace BannerMongoApp.Controllers
             return JsonConvert.SerializeObject(banners);
         }
 
+        [HttpGet("{id}")]
+        public Task<string> Get(string id)
+        {
+            return this.GetBannerWithId(id);
+        }
+
+        private async Task<string> GetBannerWithId(string id)
+        {
+            var banner = await _bannerRepository.Get(id);
+            return JsonConvert.SerializeObject(banner);
+        }
+
+
         [HttpPost]
         public async void Post([FromBody] Banner banner)
         {
@@ -39,12 +49,17 @@ namespace BannerMongoApp.Controllers
             return ;
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
+        [HttpPut("api/banner/{id}")]
         public async void Put(string id, [FromBody] Banner banner)
         {
             await _bannerRepository.Update(id,banner);
             return;
+        }
+
+        [HttpDelete("api/banner/{id}")]
+        public async void Delete(string id)
+        {
+           await _bannerRepository.Remove(id);
         }
     }
 }
