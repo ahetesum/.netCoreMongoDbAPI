@@ -29,6 +29,8 @@ namespace BannerMongoApp.Controllers
             return JsonConvert.SerializeObject(banners);
         }
 
+
+
         [HttpGet("{id}")]
         public Task<string> Get(string id)
         {
